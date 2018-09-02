@@ -1,0 +1,23 @@
+{
+  "name": "bookschain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon Node.Server/index.js"
+  },
+  "author": "my name is jeff",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "ganache-cli": "^6.0.3",
+    "mongoose": "^5.2.12",
+    "path": "^0.12.7",
+    "solc": "^0.4.21",
+    "truffle-hdwallet-provider": "0.0.3",
+    "web3": "^1.0.0-beta.26",
+    "websocket": "^1.0.26"
+  }
+}

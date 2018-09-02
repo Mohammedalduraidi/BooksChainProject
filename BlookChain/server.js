@@ -16,6 +16,7 @@ const input = {
   },
 };
 let compiled = solc.compile(input, 1);
+ console.log("hello world", compiled.contracts["book.sol:book"].interface)
 let contractAddress;
 const deploy = async () => {
   const accounts = await web3.eth.getAccounts();

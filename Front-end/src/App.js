@@ -7,78 +7,78 @@ import { Grid, Card, Button, TextField } from "@material-ui/core"
 class App extends Component {
   state = {
     owner: '',
-    balance: '',
-    value: '',
-    message: '',
-    address: '',
-    addressFrom: ''
+    adress: '',
+    bookName:'',
+    price:'',
+    BuyBook:'',
+    message:''
   };
   async componentDidMount() {
-    const owner = await token.methods.Owner().call();
+    const owner = 'hello world'
     this.setState({ owner });
     
   }
 
-  getTokens = async event => {
+  addBook = async event => {
     event.preventDefault();
     const accounts = await web3.eth.getAccounts();
     this.setState({ message: 'Waiting on transaction success...' });
-    await token.methods.getTokens().send({
-      from: accounts[0],
-      value: web3.utils.toWei(this.state.value, 'ether')
+    await token.methods.addBook(this.state.bookName, this.state.price).send({
+      from: accounts[0]
+     
     });
-    this.setState({ message: 'You got your tokens!' });
+    this.setState({ message: 'book has been added' });
   };
-  getBalance = async event => {
+  buyBook = async event => {
     event.preventDefault();
     const accounts = await web3.eth.getAccounts();
     console.log(typeof accounts[0], accounts[0]);
     this.setState({ message: 'Waiting on transaction success...' });
-    let result = await token.methods.balances(this.state.address).call({
+    let result = await token.methods.buyBook(this.state.address,this.state.BuyBook).call({
       from: accounts[0]
     });
     console.log(result)
     this.setState({ message: result });
   };
-  transfer = async event => {
-    event.preventDefault();
-    const accounts = await web3.eth.getAccounts();
-    this.setState({ message: 'Waiting on transaction success...' });
-    await token.methods.transfer(this.state.address, this.state.value).send({
-      from: accounts[0]
-    });
+  // transfer = async event => {
+  //   event.preventDefault();
+  //   const accounts = await web3.eth.getAccounts();
+  //   this.setState({ message: 'Waiting on transaction success...' });
+  //   await token.methods.transfer(this.state.address, this.state.value).send({
+  //     from: accounts[0]
+  //   });
 
-    this.setState({ message: "transaction has been entered" });
-  };
-  transferFrom = async event => {
-    event.preventDefault();
-    const accounts = await web3.eth.getAccounts();
-    this.setState({ message: 'Waiting on transaction success...' });
-    await token.methods.transferFrom(this.state.addressFrom, this.state.address, this.state.value).send({
-      from: accounts[0]
-    });
+  //   this.setState({ message: "transaction has been entered" });
+  // };
+  // transferFrom = async event => {
+  //   event.preventDefault();
+  //   const accounts = await web3.eth.getAccounts();
+  //   this.setState({ message: 'Waiting on transaction success...' });
+  //   await token.methods.transferFrom(this.state.addressFrom, this.state.address, this.state.value).send({
+  //     from: accounts[0]
+  //   });
 
-    this.setState({ message: "transaction has been entered" });
-  };
-  approve = async event => {
-    event.preventDefault();
-    const accounts = await web3.eth.getAccounts();
-    this.setState({ message: 'Waiting on transaction success...' });
-    await token.methods.approve(this.state.address, this.state.value).send({
-      from: accounts[0]
-    });
+  //   this.setState({ message: "transaction has been entered" });
+  // };
+  // approve = async event => {
+  //   event.preventDefault();
+  //   const accounts = await web3.eth.getAccounts();
+  //   this.setState({ message: 'Waiting on transaction success...' });
+  //   await token.methods.approve(this.state.address, this.state.value).send({
+  //     from: accounts[0]
+  //   });
 
-    this.setState({ message: "transaction has been entered" });
-  };
-  getEthers = async event => {
-    event.preventDefault();
-    const accounts = await web3.eth.getAccounts();
-    this.setState({ message: 'Waiting on transaction success...' });
-    await token.methods.getEthers(this.state.value).send({
-      from: accounts[0]
-    });
-    this.setState({ message: 'You sold your tokens!' });
-  };
+  //   this.setState({ message: "transaction has been entered" });
+  // };
+  // getEthers = async event => {
+  //   event.preventDefault();
+  //   const accounts = await web3.eth.getAccounts();
+  //   this.setState({ message: 'Waiting on transaction success...' });
+  //   await token.methods.getEthers(this.state.value).send({
+  //     from: accounts[0]
+  //   });
+  //   this.setState({ message: 'You sold your tokens!' });
+  // };
 
   render() {
     return (
@@ -93,28 +93,46 @@ class App extends Component {
           <hr />
           <Grid item style={{ textAlign: "center" }}>
             <Card style={{ padding: "40px", width: "300px" }}>
-              <form onSubmit={this.getTokens}>
-                <h4>Buy Tokens</h4>
+              <form onSubmit={this.addBook}>
+                <h4>add book</h4>
                 <div>
-                  <label>Amount of ether to enter</label>
+                  <label>name of the book</label>
                   <TextField
                     style={{ margin: "20px" }}
-                    value={this.state.value}
-                    onChange={event => this.setState({ value: event.target.value })}
+                    value={this.state.bookName}
+                    onChange={event => this.setState({ bookName: event.target.value })}
                   />
                 </div>
-                <Button color="primary" variant="contained" onClick={this.getTokens}>getTokens</Button>
+                <div>
+                  <label>price for the book</label>
+                  <TextField
+                    style={{ margin: "20px" }}
+                    value={this.state.price}
+                    onChange={event => this.setState({ price: event.target.value })}
+                  />
+                </div>
+                
+                <Button color="primary" variant="contained" onClick={this.addBook}>ado</Button>
               </form>
             </Card>
           </Grid>
           <hr />
           <Grid item style={{ textAlign: "center" }}>
             <Card style={{ padding: "40px", width: "300px" }}>
-              <form onSubmit={this.getBalance}>
+              <form onSubmit={this.buyBook}>
                 <h4>View your balance of Tokens</h4>
                 <div>
                   <label>Enter the address</label>
-                  <div></div>
+                  
+                  <TextField
+                    style={{ margin: "20px" }}
+                    address={this.state.address}
+                    onChange={event => this.setState({ address: event.target.value })}
+                  />
+                </div>
+                <div>
+                  <label>Enter the address</label>
+                  
                   <TextField
                     style={{ margin: "20px" }}
                     address={this.state.address}
@@ -125,7 +143,7 @@ class App extends Component {
               </form>
             </Card>
           </Grid>
-          <hr />
+          {/* <hr />
           <h1>{this.state.message}</h1>
           <hr />
           <Grid item style={{ textAlign: "center" }}>
@@ -221,6 +239,7 @@ class App extends Component {
               </form>
             </Card>
           </Grid>
+        // </Grid> */}
         </Grid>
       </div>
     );

@@ -10,8 +10,6 @@
   "author": "my name is jeff",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.3",
     "ganache-cli": "^6.0.3",
     "mongoose": "^5.2.12",
     "path": "^0.12.7",

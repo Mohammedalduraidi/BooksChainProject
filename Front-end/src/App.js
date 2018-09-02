@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import web3 from './web3';
 import token from './token';
 import AppBar from "./Components/AppBar"
-import Axios from 'axios'
+import _ from 'lodash'
 import { Grid, Card, Button, TextField } from "@material-ui/core"
 class App extends Component {
   state = {
@@ -11,7 +11,8 @@ class App extends Component {
     bookName:'',
     price:'',
     BuyBook:'',
-    message:''
+    message:'',
+    obj:{}
   };
   async componentDidMount() {
     const owner = 'hello world'
@@ -29,6 +30,22 @@ class App extends Component {
     });
     this.setState({ message: 'book has been added' });
   };
+
+  getBooks = async event => {
+
+    const accounts = await web3.eth.getAccounts();
+    this.setState({ message: 'Waiting on transaction success...' });
+   let alo =   await token.methods.getBooks().call({
+    from:accounts[0]
+   })
+   await console.log("my name is jeff", alo)
+   this.setState({
+     obj:alo
+   })
+  };
+
+
+
   buyBook = async event => {
     event.preventDefault();
     const accounts = await web3.eth.getAccounts();
@@ -41,9 +58,17 @@ class App extends Component {
     console.log(result.blockHash)
     this.setState({ message: `your success transation is: ${result.blockHash }`});
   };
-  
+  // showBooks(){
+  //   const {obj} = this.state
+  //   let x = [];
+  //   for(var k in obj){
+  //       x.push(obj[`${k}`]) 
+  //   }
+  //   return x
+  // }
 
   render() {
+    const {obj} = this.state
     return (
       <div>
         <AppBar token={this.state.owner} />
@@ -105,6 +130,17 @@ class App extends Component {
                 <Button color="primary" variant="contained" onClick={this.buyBook}>Get the book</Button>
               </form>
             </Card>
+          </Grid>
+          <Grid item style={{ textAlign: "center" }}>
+           
+          <form >
+                
+              <Button color="primary" variant="contained" onClick={this.getBooks}>Get Books</Button>
+
+                <h1 style={{margin:"20px"}}>{this.state.obj["0"]}</h1> <h1>{this.state.obj["1"]}</h1>
+                
+              </form>
+           
           </Grid>
           <Grid item style={{ textAlign: "center" }}>
            
